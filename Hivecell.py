@@ -1,10 +1,11 @@
-textchunk = "Surrounded to me occasional pianoforte alteration unaffected impossible ye. For saw half than cold. Pretty merits waited six talked pulled you. Conduct replied off led whether any shortly why arrived adapted. Numerous ladyship so raillery humoured goodness received an. So narrow formal length my highly longer afford oh. Tall neat he make or at dull ye."
+textchunk = "Surrounded to me occasional."
 
 wordlist = []
 wordlst = []
 phraselist = []
 lowchunk = textchunk.lower()
 wordlist = lowchunk.split()
+texttemp = ""
 
 for elem in wordlist:
     elem2 = ""
@@ -14,8 +15,10 @@ for elem in wordlist:
     wordlst.append(elem2)
 
 if len(wordlst) < 6:
-    for elem in wordlst:
-        phraselist.append(elem)
+    for elem in range(len(wordlst)):
+        texttemp += wordlst[elem] + " "
+    texttemp = texttemp.rstrip()
+    phraselist.append(texttemp)
 
 if len(wordlst) >= 6:
     for num1 in range(len(wordlst)):

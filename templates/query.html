@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Query The Hive!</h1>
+    <form method='post'>
+        <label>Enter a word or phrase:</label>
+
+            <input type="text" name='quechunk' />
+
+        <input type="submit" />
+    </form>
+
+    <hr />
+
+        <ul>
+            {% for drop in honey %}
+            <li>{{drop}}</li>
+            {% endfor %}
+        </ul>
+
+{% endblock %}

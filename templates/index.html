@@ -3,14 +3,18 @@
 {% block content %}
     <h1>Add To The Hive!</h1>
     <form method='post' action = "/">
-        <label>Please enter a chunk of text.<br><br>
-            <input name="textchunk" type="text" value = "" />
-        </label>
-        <input type="submit" />
+        <label for="textchunk">Add Text:</label>
+        <input name="textchunk" type="text">
+        <br><br>
+        <input type="submit">
     </form>
     
     <br><br>
 
      Thank you!
+
+     <br><br>
+
+     <a href = "/query">Click here to Query the Hive</a>
 
 {% endblock %}

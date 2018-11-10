@@ -4,6 +4,7 @@ def blobintophrases(textchunk):
     wordlst = []
     phraselist = []
     wordlist = textchunk.split()
+    texttemp = ""
 
     for elem in wordlist:
         elem2 = ""
@@ -13,8 +14,10 @@ def blobintophrases(textchunk):
         wordlst.append(elem2)
 
     if len(wordlst) < 6:
-        for elem in wordlst:
-            phraselist.append(elem)
+        for elem in range(len(wordlst)):
+            texttemp += wordlst[elem] + " "
+        texttemp = texttemp.rstrip()
+        phraselist.append(texttemp)
 
     if len(wordlst) >= 6:
         for num1 in range(len(wordlst)):
