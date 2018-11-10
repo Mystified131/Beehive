@@ -3,6 +3,7 @@ def blobintophrases(textchunk):
     wordlist = []
     wordlst = []
     phraselist = []
+    textchunk = textchunk.lower()
     wordlist = textchunk.split()
     texttemp = ""
 

@@ -3,6 +3,7 @@
 from flask import Flask, request, render_template
 from flask_sqlalchemy import SQLAlchemy
 from Hivebuilder import blobintophrases
+from Hiveworker import blobintowords
 
 import cgi, datetime, random
 
@@ -28,12 +29,24 @@ class Beehive(db.Model):
         self.phrase = phrase
         self.phrasecount = phrasecount
 
+class Workerbee(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.String(120))
+    word = db.Column(db.String(120))
+    wordcount = db.Column(db.Integer)
+
+    def __init__(self, timestamp, word, wordcount):
+        self.timestamp = timestamp
+        self.word = word
+        self.wordcount = wordcount
+
 @app.route('/', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
         textchunk = request.form["textchunk"]
-        textchunk = cgi.escape(textchunk)
+        #textchunk = "Surrounded to me occasional pianoforte alteration unaffected impossible ye. For saw half than cold. Pretty merits waited six talked pulled you. Conduct replied off led whether any shortly why arrived adapted. Numerous ladyship so raillery humoured goodness received an. So narrow formal length my highly longer afford oh. Tall neat he make or at dull ye."
         phraseset = blobintophrases(textchunk)
+        wordset = blobintowords(textchunk)
         right_now = datetime.datetime.now().isoformat()
         lista = []
         for i in right_now:
@@ -41,6 +54,18 @@ def index():
                 lista.append(i)
             tim = "".join(lista)
         timestamp = tim
+
+        #for elem2 in wordset:
+            #word = elem2
+            #wordcount = 1
+            #curword = Workerbee.query.filter_by(word=word).first()
+            #if curword:
+                #curword.wordcount += 1
+                #db.session.commit()
+            #else:
+                #new_word = Workerbee(timestamp, word, wordcount)
+                #db.session.add(new_word)
+                #db.session.commit()
 
         for elem in phraseset:
             phrase = elem
@@ -55,7 +80,6 @@ def index():
                 db.session.commit()
 
         return render_template('index.html')
-    
     else:
         return render_template('index.html')
 
@@ -63,15 +87,19 @@ def index():
 def query():
     if request.method == 'POST':
         quechunk = request.form["quechunk"]
-        quechunk = cgi.escape(quechunk)
-        quechunk = quechunk.lower()
         quelst = []
+        quenumlst = []
         queset = Beehive.query.all()
         for elem in queset:
             if quechunk in elem.phrase:
                 newstr = str(elem.phrasecount) +  " times used: " +  elem.phrase 
                 quelst.append(newstr)
         quelst.sort(reverse=True)
+
+        #quewordset = Workerbee.query.filter(word=quechunk).first()
+        #if quewordset:
+            #targstr = quewordset.word
+            #targnum = quewordset.wordcount
         
         return render_template('query.html', honey = quelst)
 
